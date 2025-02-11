@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gemini Fashion Store</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            padding: 20px;
+        }
+        .product {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin: 10px;
+            padding: 20px;
+            width: 30%;
+            text-align: center;
+        }
+        .product img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+        .product h3 {
+            margin: 10px 0;
+        }
+        .product p {
+            font-size: 18px;
+            color: #333;
+        }
+        .product button {
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .product button:hover {
+            background-color: #218838;
+        }
+        .cart {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin: 20px auto;
+            padding: 20px;
+            width: 80%;
+            text-align: center;
+        }
+        .cart h2 {
+            margin-bottom: 20px;
+        }
+        .cart ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .cart ul li {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        .cart button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .cart button:hover {
+            background-color: #0056b3;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        .modal-content {
+            background-color: #fff;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            border-radius: 5px;
+            width: 80%;
+            max-width: 500px;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .close:hover {
+            color: #000;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Gemini Fashion Store</h1>
+        <p>Shop for Clothes and Shoes in KES!</p>
+    </header>
+
+    <div class="container">
+        <!-- Product 1 -->
+        <div class="product">
+            <img src="https://m.media-amazon.com/images/I/71Rrjkp2q+L._AC_UY1000_.jpg" alt="T-Shirt">
+            <h3>T-Shirt</h3>
+            <p>Price: KES 1,500</p>
+            <button onclick="addToCart('T-Shirt', 1500)">Add to Cart</button>
+        </div>
+
+        <!-- Product 2 -->
+        <div class="product">
+            <img src="https://m.media-amazon.com/images/I/519Fwb493YL._AC_UY1100_.jpg" alt="Mens Jeans">
+            <h3>Jeans</h3>
+            <p>Price: KES 2,500</p>
+            <button onclick="addToCart('Jeans', 2500)">Add to Cart</button>
+        </div>
+
+        <!-- Product 3 -->
+        <div class="product">
+            <img src="https://static.wixstatic.com/media/339de0_13ce5d2875bc4605bcc100638f91a2d9~mv2.jpg/v1/fill/w_674,h_899,al_c,q_85,enc_auto/339de0_13ce5d2875bc4605bcc100638f91a2d9~mv2.jpg" alt="Sneakers">
+            <h3>Sneakers</h3>
+            <p>Price: KES 3,500</p>
+            <button onclick="addToCart('Sneakers', 3500)">Add to Cart</button>
+        </div>
+
+        <!-- Product 4 -->
+        <div class="product">
+            <img src="https://image.kilimall.com/kenya/shop/store/goods/4379/2019/03/4379_06051404546061894.jpg?x-image-process=image/format,webp/resize,w_720#" alt="Casual Shoes">
+            <h3>Casual Shoes</h3>
+            <p>Price: KES 2,800</p>
+            <button onclick="addToCart('Casual Shoes', 2800)">Add to Cart</button>
+        </div>
+
+        <!-- Product 5 -->
+        <div class="product">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvKi-ZO7rByZGc2gL8Z7rFgMYzAJjsXDjo7Tdd_QNGB_RQ-vHiR2KAqX12DlU3prlEbuM&usqp=CAU" alt="Men's Boxers">
+            <h3>Men's Boxers</h3>
+            <p>Price: KES 1,000</p>
+            <button onclick="addToCart('Men\'s Boxers', 1000)">Add to Cart</button>
+        </div>
+
+        <!-- Product 6 -->
+        <div class="product">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUHoA0abkt8kya4B-2FHDrX4Q8YaUS87OOV_amSG7Nvw&s" alt="Suede Jacket">
+            <h3>Suede Jacket</h3>
+            <p>Price: KES 3,000</p>
+            <button onclick="addToCart('Suede Jacket', 3000)">Add to Cart</button>
+        </div>
+    </div>
+
+    <div class="cart">
+        <h2>Shopping Cart</h2>
+        <ul id="cart-items"></ul>
+        <p>Total: KES <span id="total">0</span></p>
+        <button id="checkout-btn" onclick="checkout()">Checkout</button>
+    </div>
+
+    <!-- Payment Details Modal -->
+    <div id="payment-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>Payment Instructions</h2>
+            <p>Please pay the total amount of KES <span id="modal-total">0</span> via M-PESA.</p>
+            <p><strong>Pay Bill Number:</strong> 529901</p>
+            <p><strong>Account Number:</strong> 3082014542002</p>
+            <p><strong>Name:</strong> Stanley Kinoru</p>
+            <p>After payment, please send a screenshot of the transaction receipt to confirm your order via WhatsApp at +254790495277.</p>
+        </div>
+    </div>
+
+    <script>
+        let cart = [];
+        let total = 0;
+
+        function addToCart(name, price) {
+            cart.push({ name, price });
+            total += price;
+            updateCart();
+        }
+
+        function updateCart() {
+            const cartItems = document.getElementById('cart-items');
+            const totalElement = document.getElementById('total');
+            const modalTotal = document.getElementById('modal-total');
+
+            cartItems.innerHTML = '';
+            cart.forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = `${item.name} - KES ${item.price}`;
+                cartItems.appendChild(li);
+            });
+
+            totalElement.textContent = total;
+            modalTotal.textContent = total;
+        }
+
+        function checkout() {
+            if (cart.length === 0) {
+                alert("Your cart is empty. Please add items before checking out.");
+                return;
+            }
+
+            const confirmCheckout = confirm(`Your total is KES ${total}. Proceed to payment?`);
+            if (confirmCheckout) {
+                showPaymentDetails();
+            }
+        }
+
+        function showPaymentDetails() {
+            const modal = document.getElementById('payment-modal');
+            modal.style.display = 'block';
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('payment-modal');
+            modal.style.display = 'none';
+        }
+    </script>
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gemini Fashion Store</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            padding: 20px;
+        }
+        .product {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin: 10px;
+            padding: 20px;
+            width: 30%;
+            text-align: center;
+        }
+        .product img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+        .product h3 {
+            margin: 10px 0;
+        }
+        .product p {
+            font-size: 18px;
+            color: #333;
+        }
+        .product button {
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .product button:hover {
+            background-color: #218838;
+        }
+        .cart {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin: 20px auto;
+            padding: 20px;
+            width: 80%;
+            text-align: center;
+        }
+        .cart h2 {
+            margin-bottom: 20px;
+        }
+        .cart ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .cart ul li {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        .cart button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .cart button:hover {
+            background-color: #0056b3;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        .modal-content {
+            background-color: #fff;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            border-radius: 5px;
+            width: 80%;
+            max-width: 500px;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .close:hover {
+            color: #000;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Gemini Fashion Store</h1>
+        <p>Shop for Clothes and Shoes in KES!</p>
+    </header>
+
+    <div class="container">
+        <!-- Product 1 -->
+        <div class="product">
+            <img src="https://m.media-amazon.com/images/I/71Rrjkp2q+L._AC_UY1000_.jpg" alt="T-Shirt">
+            <h3>T-Shirt</h3>
+            <p>Price: KES 1,500</p>
+            <button onclick="addToCart('T-Shirt', 1500)">Add to Cart</button>
+        </div>
+
+        <!-- Product 2 -->
+        <div class="product">
+            <img src="https://m.media-amazon.com/images/I/519Fwb493YL._AC_UY1100_.jpg" alt="Mens Jeans">
+            <h3>Jeans</h3>
+            <p>Price: KES 2,500</p>
+            <button onclick="addToCart('Jeans', 2500)">Add to Cart</button>
+        </div>
+
+        <!-- Product 3 -->
+        <div class="product">
+            <img src="https://static.wixstatic.com/media/339de0_13ce5d2875bc4605bcc100638f91a2d9~mv2.jpg/v1/fill/w_674,h_899,al_c,q_85,enc_auto/339de0_13ce5d2875bc4605bcc100638f91a2d9~mv2.jpg" alt="Sneakers">
+            <h3>Sneakers</h3>
+            <p>Price: KES 3,500</p>
+            <button onclick="addToCart('Sneakers', 3500)">Add to Cart</button>
+        </div>
+
+        <!-- Product 4 -->
+        <div class="product">
+            <img src="https://image.kilimall.com/kenya/shop/store/goods/4379/2019/03/4379_06051404546061894.jpg?x-image-process=image/format,webp/resize,w_720#" alt="Casual Shoes">
+            <h3>Casual Shoes</h3>
+            <p>Price: KES 2,800</p>
+            <button onclick="addToCart('Casual Shoes', 2800)">Add to Cart</button>
+        </div>
+
+        <!-- Product 5 -->
+        <div class="product">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvKi-ZO7rByZGc2gL8Z7rFgMYzAJjsXDjo7Tdd_QNGB_RQ-vHiR2KAqX12DlU3prlEbuM&usqp=CAU" alt="Men's Boxers">
+            <h3>Men's Boxers</h3>
+            <p>Price: KES 1,000</p>
+            <button onclick="addToCart('Men\'s Boxers', 1000)">Add to Cart</button>
+        </div>
+
+        <!-- Product 6 -->
+        <div class="product">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUHoA0abkt8kya4B-2FHDrX4Q8YaUS87OOV_amSG7Nvw&s" alt="Suede Jacket">
+            <h3>Suede Jacket</h3>
+            <p>Price: KES 3,000</p>
+            <button onclick="addToCart('Suede Jacket', 3000)">Add to Cart</button>
+        </div>
+    </div>
+
+    <div class="cart">
+        <h2>Shopping Cart</h2>
+        <ul id="cart-items"></ul>
+        <p>Total: KES <span id="total">0</span></p>
+        <button id="checkout-btn" onclick="checkout()">Checkout</button>
+    </div>
+
+    <!-- Payment Details Modal -->
+    <div id="payment-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>Payment Instructions</h2>
+            <p>Please pay the total amount of KES <span id="modal-total">0</span> via M-PESA.</p>
+            <p><strong>Pay Bill Number:</strong> 529901</p>
+            <p><strong>Account Number:</strong> 3082014542002</p>
+            <p><strong>Name:</strong> Stanley Kinoru</p>
+            <p>After payment, please send a screenshot of the transaction receipt to confirm your order via WhatsApp at +254790495277.</p>
+        </div>
+    </div>
+
+    <script>
+        let cart = [];
+        let total = 0;
+
+        function addToCart(name, price) {
+            cart.push({ name, price });
+            total += price;
+            updateCart();
+        }
+
+        function updateCart() {
+            const cartItems = document.getElementById('cart-items');
+            const totalElement = document.getElementById('total');
+            const modalTotal = document.getElementById('modal-total');
+
+            cartItems.innerHTML = '';
+            cart.forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = `${item.name} - KES ${item.price}`;
+                cartItems.appendChild(li);
+            });
+
+            totalElement.textContent = total;
+            modalTotal.textContent = total;
+        }
+
+        function checkout() {
+            if (cart.length === 0) {
+                alert("Your cart is empty. Please add items before checking out.");
+                return;
+            }
+
+            const confirmCheckout = confirm(`Your total is KES ${total}. Proceed to payment?`);
+            if (confirmCheckout) {
+                showPaymentDetails();
+            }
+        }
+
+        function showPaymentDetails() {
+            const modal = document.getElementById('payment-modal');
+            modal.style.display = 'block';
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('payment-modal');
+            modal.style.display = 'none';
+        }
+    </script>
+</body>
+</html>
